@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Final project</title>
+        <style>
+            html, body, header, footer, section, div, h1, h2, ul, li { margin: 0; padding: 0;
+                font: 12px/18px "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif; }
+            ul, li { list-style: none; }
+            button { border: 1px solid #aaa; border-radius: 4px; background-color: #eee; font-size: 13px;
+                line-height: 21px; padding: 2px 10px; }
+            button.primary { background-color: #58a; color: #fff; border-color: #35688A }
+            .hide { display: none; }
+            .breadcrumb {
+                background: linear-gradient(-90deg, #FCFCFC, #F5F5F5);
+                background: -webkit-linear-gradient(right, #FCFCFC, #F5F5F5);
+                border: 1px solid #F8F8F8; border-radius: 5px;
+                margin: 40px auto 0; max-width: 550px;}
+            .breadcrumb li { display: inline-block;  margin: 10px 0 10px 10px; }
+            .disabledlink { text-decoration: none; color: #888; cursor: default;  }
+            .view {
+                background: -moz-linear-gradient(#ffffff, #e0eeff);
+                background: -webkit-linear-gradient(#ffffff, #e0eeff);
+                border: 2px solid #ccc; border-radius: 5px;
+                display: none; margin: 10px auto; width: 550px; z-index: 1; opacity: 0}
+            .view header {
+                border-top-left-radius: 5px; border-top-right-radius: 5px;
+                box-shadow: 0 0 4px 0 rgba(90, 90, 90, .5);
+                background-color: #87beea;
+                height: 40px;
+                position: relative;
+                left: -1px;
+                top: -1px;
+                width: 552px;
+            }
+            .view header h1 { position: absolute; font-size: 18px; font-weight: bold; top: 10px; left: 10px; }
+            .view article {
+                background: -moz-linear-gradient(#fff 4%, #f8f8f8 25%, #f3f3f3 86%, #e3e3e3 103%);
+                background: -webkit-linear-gradient(#FdFdFd 4%, #F0F0F0 96%, #E9E9E9);
+                border: 2px solid #bbb; border-radius: 5px;
+                margin: 15px; position: relative;
+                overflow: hidden; z-index: 2;
+            }
+            .view article h2 { font-size: 15px; font-weight: bold; margin: 8px 0; }
+            .view article .content { margin: 10px 10px 40px 10px; }
+            .view article .content-list { margin: 10px 10px 40px 200px; }
+            .view .content-listResult { margin: 10px 10px 40px 10px; }
+            .view .resultPlan { margin: 10px 10px 40px 10px; }
+            .view .resultPerson { margin: 10px 10px 40px 10px; }
+            .view .herospot { float: left; width: 170px; margin: 15px; }
+            .view .hero-item { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 20px; color: #fff; line-height: 23px; }
+            .view .hero-limited {
+                background: -moz-linear-gradient(#fCc5a8, #d07048 );
+                background: -webkit-linear-gradient(#fCc5a8, #d07048);
+            }
+            .view .hero-comprehensive {
+                background: -moz-linear-gradient(#bCCAF8, #3860B8 );
+                background: -webkit-linear-gradient(#bCCAF8, #3860B8 );
+            }
+            .view article .taskbar { position: absolute; right: 10px; bottom: 10px; }
+            article.form h2 span { margin-left: 10px; }
+            article.form h2 button { float: right; margin-right: 10px; }
+            .form { position: relative; }
+            form li { margin: 15px; }
+            form .key { min-width: 130px; display: inline-block;  text-align: right; }
+            form .input { border-color: #D3D3D3 #F1F1F1 #F1F1F1 #D3D3D3; border-style: solid; border-width: 1px; border-radius: 3px; font-size: 13px; line-height: 18px; padding: 5px; width: 250px; }
+            form span.date { background-color: #fff; display: inline-block; padding: 3px; width: 168px; }
+            form span.date input { border: none; background: url('ui-lightness/images/calendar-mini.png') no-repeat right center; padding: 2px; width: 160px;}
+            #userFormView .taskbar { margin: 0 12px 10px 12px;}
+            #userFormView .taskbar button.primary { float: right; }
+            .elevate {
+                box-shadow: 0 1px 4px rgba(100,100,100,.6); border: 1px solid #eee !important;
+                background: -moz-linear-gradient(#fff 4%, #fdfdfd 25%, #f3f3f3 86%, #e3e3e3 103%) !important;
+                -webkit-transform: scale(1.009);
+                -moz-transform: scale(1.006);
+            }
+            .highlight-error { outline-color: red; outline-style: none; }
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Begin Bread crumb shell -->
+        <div class="breadcrumb">
+            <ul id="pageLink">
+            </ul>
+        </div>
+        <!-- End Bread crumb shell -->
+
+
+        <!-- Begin Home screen -->
+        <section id="homeView" class="view">
+            <header><h1>Available plans</h1></header>
+            <article>
+                <div class="content">
+                    <h2><span>Limited Coverage</span></h2>
+                    Limited coverage plan provides the basic protection,
+                    and may not be adequate. It may cost you less, but the coverage
+                    is limited to pre defined clause of fixed amount of charges.
+                    Must read policy details for benefit and coverage details.
+                </div>
+                <div class="taskbar"><button data-targetview="limitedView">Select</button></div>
+            </article>
+
+            <article>
+                <div class="content">
+                    <h2><span>Comprehensive Coverage</span></h2>
+                    These plans offer much better and flexible coverage.
+                    Most of these plans work like PPO type of 80-20% plan.
+                    Means insured have to pay 20% of the cost for the first
+                    $5,000 per policy period policy pays rest 80%.
+                </div>
+                <div class="taskbar"><button data-targetview="comprehensiveView">Select</button></div>
+            </article>
+        </section>
+        <!-- End Home screen -->
+
+
+        <!-- Begin Limited coverage screen -->
+        <section id="limitedView" class="view">
+            <header><h1>Limited Coverage</h1></header>
+            <article>
+                <div class="herospot">
+                    <div class="hero-item hero-limited">
+                        Limited Plan&nbsp;A
+                    </div>
+                </div>
+                <div class="content-list">
+                    <h2><span>Limited Plan A</span></h2>
+                    Limited Plan A provides basic medical coverage for non-US citizens,
+                    who come to the U.S. for business, pleasure, study or to immigrate with
+                    a maximum coverage of $120,000.
+                </div>
+                <div class="taskbar"><button data-targetview="userFormView">Select</button></div>
+            </article>
+
+            <article>
+                <div class="herospot">
+                    <div class="hero-item hero-limited">
+                        Limited Plan&nbsp;B
+                    </div>
+                </div>
+                <div class="content-list">
+                    <h2><span>Limited Plan A</span></h2>
+                    Limited Plan B provides basic medical coverage for non-US citizens,
+                    who come to the U.S. for business, pleasure, study or to immigrate with
+                    a maximum coverage of $140,000.
+                </div>
+                <div class="taskbar"><button data-targetview="userFormView">Select</button></div>
+            </article>
+        </section>
+        <!-- End Limited coverage screen -->
+
+
+        <!-- Begin Comprehensive coverage screen -->
+        <section id="comprehensiveView" class="view">
+            <header><h1>Comprehensive Coverage</h1></header>
+            <article>
+                <div class="herospot">
+                    <div class="hero-item hero-comprehensive">
+                        Comprehensive Plan&nbsp;A
+                    </div>
+                </div>
+                <div class="content-list">
+                    <h2><span>Comprehensive Plan A</span></h2>
+                    Plan A offers medical coverage and emergency services to individuals
+                    and families travelling outside their home countries.
+                </div>
+                <div class="taskbar"><button data-targetview="userFormView">Select</button></div>
+            </article>
+
+            <article>
+                <div class="herospot">
+                    <div class="hero-item hero-comprehensive">
+                        Comprehensive Plan&nbsp;B
+                    </div>
+                </div>
+                <div class="content-list">
+                    <h2><span>Comprehensive Plan B</span></h2>
+                    Plan B offers medical coverage and emergency services to individuals
+                    and families travelling outside their home countries.
+                </div>
+                <div class="taskbar"><button data-targetview="userFormView">Select</button></div>
+            </article>
+
+            <article>
+                <div class="herospot">
+                    <div class="hero-item hero-comprehensive">
+                        Comprehensive Plan&nbsp;C
+                    </div>
+                </div>
+                <div class="content-list">
+                    <h2><span>Comprehensive Plan C</span></h2>
+                    Plan C offers medical coverage and emergency services to individuals
+                    and families travelling outside their home countries.
+                </div>
+                <div class="taskbar"><button data-targetview="userFormView">Select</button></div>
+            </article>
+        </section>
+        <!-- End Comprehensive coverage screen -->
+
+
+        <!-- Begin User form -->
+        <section id="userFormView" class="view">
+            <header><h1>Personal Details</h1></header>
+            <div class="taskbar">
+                <button class="addmore">+</button>
+                <button id="formSubmit" data-targetview="" class="primary">Submit</button>
+            </div>
+        </section>
+        <!-- End User form -->
+
+        <!-- Begin Comprehensive coverage screen -->
+        <section id="resultDiv" class="view">
+            <header><h1>Thank you!</h1></header>
+                <div class="content-listResult">
+                    <p>We really appreciate that you choose our company.</p>
+                    <p>Following are the data informed:</p>
+                </div>
+                <div class="resultPlan"></div>
+                <div class="resultPerson"></div>
+        </section>
+        <!-- End Comprehensive coverage screen -->
+
+        <!-- Begin template models -->
+        <div id="template" style="display: none; opacity: 0">
+            <article class="form">
+                <h2><span></span><button class="removeform hide">-</button></h2>
+                <form action="#" method="post">
+                    <ul>
+                        <li>
+                            <span class="key">Name</span>
+                            <input type="text" name="name" class="input value" placeholder="Name of insured" required="required"/>
+                        </li>
+                        <li>
+                            <span class="key">Address</span>
+                            <input type="text" name="address1" class="input value" placeholder="Address of insured" required="required"/>
+                        </li>
+                        <li>
+                            <span class="key"></span>
+                            <input type="text" name="address2" class="input value" placeholder="address contd."/>
+                        </li>
+                        <li>
+                            <span class="key">Start Date</span>
+                            <span class="input date">
+                                <input type="text" name="startDate" class="input value" placeholder="Start date" required="required" maxlength="10"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span class="key">End Date</span>
+                            <span class="input date">
+                                <input type="text" name="endDate" class="input value" placeholder="End date" required="required" maxlength="10"/>
+                            </span>
+                        </li>
+                    </ul>
+                </form>
+            </article>
+        </div>
+        <!-- End template models -->
+
+    </body>
+    <script type="application/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="application/javascript">
+
+        $(document).ready(function(){
+            try
+            {
+                //Always show the First screen so if the user refresh the browser this screen will be showed
+                $("#homeView").show().animate({opacity:1},500);
+                //show the breadcrumbs if the user
+                showBreadCrumbs("#homeView");
+
+                //Making the History Buttons on the Browser work on SPA
+                $(window).on("hashchange", function(){
+                    var targetScreen = location.hash;
+                    //hide all screens
+                    $(".view").hide();
+                    //show the target screen
+                    $(targetScreen).show().animate({opacity:1},500);
+
+                    //show the breadcrumbs
+                    showBreadCrumbs(targetScreen);
+                });
+
+                //set the default page
+                location.hash = "homeView";
+
+                // Screens navigation
+                $(".view").find(".taskbar > button").click(function(){
+                    var nextdiv = $(this).attr("data-targetview");
+                    if(nextdiv != undefined)
+                        location.hash = nextdiv;
+                });
+
+                //Adding the First Contact Form
+                createPersonForm(false);
+
+                //Button to add new Contacts
+                $("#userFormView").find(".addmore").click(function(e){
+                    createPersonForm(true);
+                    location.hash = "userFormView";
+                });
+
+                //Submit the Form
+                $("#formSubmit").click(function(e) {
+                    location.hash = "userFormView";
+                    e.preventDefault();
+
+                    var valid = validateForm();
+                    if(valid == ""){
+                        location.hash = "resultDiv";
+                        showConfirmationPage();
+                    }else{
+                        alert(valid);
+                    }
+                });
+            }
+            catch(e)
+            {
+                console.log(e);
+            }
+        });
+
+        /**
+         * function     createPersonForm
+         * @param       showRemoveButton
+         * @description Function to create new Person Forms
+         */
+        function createPersonForm(showRemoveButton){
+            //Check how many forms we have
+            var count = $("#userFormView").find("form").length;
+            count++;
+
+            if(count > 5){
+                alert("Sorry, maximum of 5 people can be added!");
+                return;
+            }
+
+            //Cloning the Template
+            var template = $("#template").clone();
+
+            template.attr("id","form"+count);
+            template.show().animate({opacity:1},500);
+            template.insertBefore($("#userFormView > .taskbar"));
+            template.find("h2 > span").html("Person "+count);
+            template.find("form").attr("name","myForm"+count);
+
+            //change the Date fields and attaching the
+            //DatePicker Plugin
+            template.find("input[name='startDate']").attr("id","startDate"+count);
+            template.find("input[name='endDate']").attr("id","endDate"+count);
+            datePickerCustom("startDate"+count, "endDate"+count);
+
+            //Is it necessary to show the Remove Button?
+            if(showRemoveButton){
+                template.find("h2 > button").removeClass( "hide" );
+
+                //Removing the current Contact Form
+                template.find("h2 > button").click(function(){
+                    template.animate({opacity:0},200, function(){
+                        $(this).remove();
+                        reorganizePersonForm();
+                    });
+                });
+            }
+        }
+
+        /**
+         * function     reorganizePersonForm
+         * @description Function that changes the attributes id on the DOM and also the Person Number
+         *              so everytime a Person is removed the screem is repainted
+         */
+        function reorganizePersonForm(){
+            $("#userFormView").find(".form").each(function(index){
+
+                var i = index+1;
+                //changing the ids and label
+                $(this).closest("div").attr("id","form"+i);
+                $(this).find("h2 > span").html("Person "+i);
+                $(this).find("form").attr("name","myForm"+i);
+
+                //change the Date fields and attaching the DatePicker Plugin
+                $(this).find("input[name='startDate']").attr("id","startDate"+i);
+                $(this).find("input[name='endDate']").attr("id","endDate"+i);
+                datePickerCustom("startDate"+i, "endDate"+i);
+            });
+        }
+
+        /**
+         * function     DatePicker function for the Date inputs on the Person Form
+         *              Extracetd from https://jqueryui.com/datepicker/
+         * @param       startDateId (input id)
+         * @param       endDateId (input id)
+         */
+        function datePickerCustom(startDateId, endDateId) {
+            $( function() {
+            var dateFormat = "mm/dd/yy",
+                    from = $("#" + startDateId)
+                            .datepicker({
+                                defaultDate: "0",
+                                changeMonth: true,
+                                numberOfMonths: 2,
+                                minDate: 0
+                            })
+                            .on("change", function () {
+                                to.datepicker("option", "minDate", getDate(this));
+                            }),
+                    to = $("#" + endDateId).datepicker({
+                        defaultDate: "0",
+                        changeMonth: true,
+                        numberOfMonths: 2
+                    })
+                            .on("change", function () {
+                                from.datepicker("option", "maxDate", getDate(this));
+                            });
+
+                function getDate( element ) {
+                    var date;
+                    try {
+                        date = $.datepicker.parseDate( dateFormat, element.value );
+                    } catch( error ) {
+                        date = null;
+                    }
+
+                    return date;
+                }
+        })
+
+        }
+
+        /**
+         * function     Validates all the forms that should be filled out before submit the user data
+         */
+        function validateForm(){
+            var error = "";
+
+            $("#userFormView").find("form").each(function(index){
+                var formId = index+1;
+
+                //name
+                var x=document.forms["myForm"+formId]["name"].value;
+                if (x==null || x=="")
+                    error += "- Name for Person "+formId+" must be filled out.\n";
+
+                //address
+                var y=document.forms["myForm"+formId]["address1"].value;
+                if (y==null || y=="")
+                    error += "- Address for Person "+formId+" must be filled out.\n";
+
+                //Dates Validation
+                var dtRegex = new RegExp(/^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/);
+
+                var strtDt = $("#userFormView").find("#startDate"+formId).val();
+                if (strtDt==null || strtDt==""){
+                    error += "- Start Date for Person "+formId+" must be filled out.\n";
+                }else{
+                    if(!dtRegex.test(strtDt))
+                        error += "- Start Date for Person "+formId+" has a invalid Date.\n";
+                }
+
+                var endDt = $("#userFormView").find("#endDate"+formId).val();
+                if (endDt==null || endDt==""){
+                    error += "- End Date for Person "+formId+" must be filled out.\n";
+                }else{
+                    if(!dtRegex.test(endDt))
+                        error += "- End Date for Person "+formId+" has a invalid Date.\n";
+                }
+            });
+            if(error != ""){
+                return "Please correct the following error(s) to send the form:\n\n"+error;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        /**
+         * function     showBreadCrumbs
+         * @param       actualScreen
+         * @description Function to create and show the BreadCrumbs (navigation links)
+         */
+        function showBreadCrumbs(actualScreen){
+
+            //Not showing the BreadCrumb for the "Thank you" Page!
+            if(actualScreen == "#resultDiv"){
+                $(".breadcrumb").hide();
+                return;
+            }else{
+                $(".breadcrumb").show();
+            }
+
+            //Create the Bread Crumbs Array
+            var myBreadCrumbs = [];
+            $("#pageLink").find("li").each(function(){
+                myBreadCrumbs.push([$(this).attr('data-targetview'),$($(this).attr('data-targetview')+" > header > h1").html()]);
+            });
+
+            //check if the actual screen is already on the BreadCrumb
+            var index = -1;
+            for (var i = 0; i < myBreadCrumbs.length-1; i++) {
+                if (myBreadCrumbs[i][0] == actualScreen) {
+                    index = i;
+                }
+            }
+
+            if(index != -1)
+            {
+                for (var i = index+1; i < myBreadCrumbs.length-1; i++) {
+                    delete myBreadCrumbs[i];
+                }
+            }else{
+                myBreadCrumbs.push([actualScreen,$(actualScreen).find("header > h1").html()]);
+            }
+
+            //alert(actualScreen);
+            $("#pageLink").empty();
+
+            //Display the Bread Crumbs
+            for(var i =0; i <= myBreadCrumbs.length-1; i++){
+                var pageHash = myBreadCrumbs[i][0];
+                var pageName = myBreadCrumbs[i][1];
+
+                if(pageHash == actualScreen){
+                    var link = "<li data-targetview='"+pageHash+"'>"+ pageName + "</li>";
+                    $("#pageLink").append(link);
+                    break;
+                }else{
+                    var link = "<li data-targetview='"+pageHash+"'><a href='"+pageHash+"'>"+ pageName + "</a></li>";
+                    $("#pageLink").append(link);
+                }
+            }
+
+        }
+
+        /**
+         * function     showConfirmationPage
+         * @description Show the details the user selected
+         */
+        function showConfirmationPage(){
+
+            //get the chosen plan
+            var plan = $("#pageLink").find("li").eq(1).text();
+            if(plan != "") {
+                $("#resultDiv > .resultPlan").html("<b>Selected Plan:</b> " + plan);
+            }
+
+            var person = "";
+            //get the Person 1 data
+            $("#userFormView").find("form[name='myForm1']").find("input").each(function(){
+
+                var data = $(this).siblings(".key").text();
+                //get the Dates input
+                if(data == ""){
+                    data = $(this).closest("li").find(".key").text();
+                }
+
+                //address contd.
+                if($(this).attr("name") != "address2"){
+                    person += "<b>" + data + ": </b>";
+                }
+
+                person += $(this).val()+"</br>";
+            });
+
+            $("#resultDiv > .resultPerson").html(person);
+        }
+    </script>
+
+
+</html>
